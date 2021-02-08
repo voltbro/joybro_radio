@@ -1,0 +1,22 @@
+// A very simple protocol definition, consisting of only
+// one message.
+
+syntax = "proto2";
+
+message BroJoystick {
+   required uint32 LeftJoy_X = 1 [default = 512];
+   required uint32 LeftJoy_Y = 2 [default = 512];
+   required uint32 RightJoy_X = 3 [default = 512];
+   required uint32 RightJoy_Y = 4 [default = 512];
+   required uint32 LeftSlider = 5 [default = 0];
+   required uint32 RightSlider = 6 [default = 0];
+   required bool LeftJoy_Btn  = 7 [default = false];
+   required bool RightJoy_Btn = 8 [default = false];
+   required bool btn1 = 9 [default = false];
+   required bool btn2 = 10  [default = false];
+   required bool btn3 = 11 [default = false];
+   required bool btn4 = 12  [default = false];
+   required bool sw1 = 13  [default = false];
+   required bool sw2 = 14  [default = false];
+   required bool sw3 = 15  [default = false];
+}
