@@ -1,6 +1,6 @@
 <launch>
     <node pkg="joybro_radio" type="joybro_radio.py" name="joybro_radio" output="screen"> 
-        <param name="baudrate" value="9600"/>
+        <param name="baudrate" value="19200"/>
         <param name="device" value="/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0"/>
         <param name="pub_topic" value="/joybro"/>
     </node>

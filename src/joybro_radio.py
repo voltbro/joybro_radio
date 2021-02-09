@@ -12,6 +12,12 @@ serial_device = rospy.get_param('~device','/dev/serial/by-id/usb-Silicon_Labs_CP
 baudrate = rospy.get_param('~baudrate', 9600)
 pub_topic = rospy.get_param('~pub_topic','/joybro')
 
+rospy.loginfo("Start Radio reciver")
+rospy.loginfo("Radio device: %s", serial_device)
+rospy.loginfo("Radio baudrate: %s", baudrate)
+rospy.loginfo("Pub topic: %s", pub_topic)
+
+
 ser = serial.Serial(port=serial_device, 
         baudrate=baudrate, 
         timeout=0.1, 
@@ -23,10 +29,10 @@ def get_topic(joy_proto):
 
     joy_topic = JoyBro()
 
-    joy_topic.left_x = joy_proto.LeftJoy_X
-    joy_topic.left_y = joy_proto.LeftJoy_Y
-    joy_topic.right_x = joy_proto.RightJoy_X
-    joy_topic.right_y = joy_proto.RightJoy_Y
+    joy_topic.left_x = joy_proto.LeftJoy_X - 512
+    joy_topic.left_y = joy_proto.LeftJoy_Y - 512
+    joy_topic.right_x = joy_proto.RightJoy_X - 512
+    joy_topic.right_y = joy_proto.RightJoy_Y - 512
 
     joy_topic.btn1 = joy_proto.btn1
     joy_topic.btn2 = joy_proto.btn2
@@ -63,5 +69,6 @@ while global_loop:
 
     except :
         pass
-            
+
+rospy.loginfo("Stop Radio reciver")            
 ser.close()
