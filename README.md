@@ -20,7 +20,7 @@ AT+B19200
 
 Start radio->joybro topic publisher
 ```
-roslaunch joybro_radio joybro_radio_teleop.launch
+roslaunch joybro_radio joybro_radio.launch
 ```
 
 Start radio->joybro topic publisher and `joybro` teleop node
