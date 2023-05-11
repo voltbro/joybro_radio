@@ -14,11 +14,13 @@ class RobotRadioControll():
 
         rospy.on_shutdown(self.on_shutdown)
 
-        self.ser = serial.Serial(port=rospy.get_param('~device','/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0'), 
-            baudrate=rospy.get_param('~baudrate', 19200), 
-            timeout=0.1, 
-            dsrdtr=True)
-        
+        self.ser = serial.Serial()
+        self.ser.baudrate = rospy.get_param('~baudrate', 19200)
+        self.ser.port = rospy.get_param('~device','/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0')
+        self.ser.dtr = False
+        self.ser.timeout = 0.1
+        self.ser.open()
+
         self.cmd_vel_pub = rospy.Publisher("/cmd_vel", Twist, queue_size=5)        
         rospy.loginfo("Init done")
 
