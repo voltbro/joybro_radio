@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 
 import serial, rospy, signal, BroJoystick_pb2 
 from cobs import cobs
