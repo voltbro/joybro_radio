@@ -7,7 +7,7 @@ class RobotRadioControll():
     def __init__(self):
         
         self.max_linear_vel = rospy.get_param('~max_linear_vel',0.35)
-        self.max_angular_vel = rospy.get_param('~max_angular_vel',1.5)
+        self.max_angular_vel = rospy.get_param('~max_angular_vel',2)
         self.threshold = rospy.get_param('~threshold',20)
 
         self.state = 'stop'
@@ -43,25 +43,32 @@ class RobotRadioControll():
                 joy_proto = BroJoystick_pb2.BroJoystick()
                 joy_proto.ParseFromString(proto_data)
 
-                if self.state == 'stop' and joy_proto.sw1 == 1:
+                # True если нажато, нужно ехать
+
+                if (joy_proto.sw1 == False and self.state == 'move'):
+                    rospy.loginfo("Swith to stop state")
+                    self.state = 'stop' 
+                    self.cmd_vel_pub.publish(Twist())
+                                     
+
+                if (joy_proto.sw1 == True and self.state == 'stop'):
+                    rospy.loginfo("Swith to move state")
                     self.state = 'move'
 
-                if(self.state == 'move' and joy_proto.sw1 == 0):
-                    twist = Twist()
-                    self.pub.publish(twist)
-                    self.state = 'stop'                
+                linear_vel = 0
+                angular_vel = 0
+                
+                if abs(joy_proto.LeftJoy_Y - 512) > self.threshold:
+                    linear_vel = (((joy_proto.LeftJoy_Y - 512)/512.0)*self.max_linear_vel)*(joy_proto.LeftSlider/1024)
 
-                if abs(joy_proto.LeftJoy_X - 512) > self.threshold:
-                    linear_vel = (((joy_proto.LeftJoy_X - 512)/512.0)*self.max_linear_vel)*(joy_proto.LeftSlider/1024)
-
-                if abs(joy_proto.LeftJoy_Y - 512) > self.threshold:    
-                    angular_vel = -(((joy_proto.LeftJoy_Y - 512)/512.0)*self.max_angular_vel)*(joy_proto.LeftSlider/1024)
+                if abs(joy_proto.LeftJoy_X - 512) > self.threshold:    
+                    angular_vel = -(((joy_proto.LeftJoy_X - 512)/512.0)*self.max_angular_vel)*(joy_proto.LeftSlider/1024)
 
                 if (self.state == 'move'):
                     twist = Twist()
                     twist.linear.x = linear_vel
                     twist.angular.z = angular_vel
-                    self.pub.publish(twist)                
+                    self.cmd_vel_pub.publish(twist)                
 
             
             except :

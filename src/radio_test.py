@@ -7,6 +7,7 @@ from cobs import cobs
 global_loop = True
  
 serial_device = "/dev/tty.usbserial-0001" 
+serial_device = "/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0" 
 baudrate = 19200
 
 ser = serial.Serial(port=serial_device, 
