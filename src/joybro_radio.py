@@ -70,5 +70,5 @@ while global_loop:
     except :
         pass
 
-rospy.loginfo("Stop Radio reciver")            
+rospy.loginfo("Stop Radio reciver")
 ser.close()
