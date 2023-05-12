@@ -77,9 +77,10 @@ class RobotRadioControll():
                     twist.angular.z = angular_vel
                     self.cmd_vel_pub.publish(twist)     
 
-                self.servo44_pub.publish(180 - int(joy_proto.RightJoy_X/5.8)) 
+                servo44_pose = 180 - int(joy_proto.RightJoy_X/5.8)
+                self.servo44_pub.publish(servo44_pose) 
+
                 servo45_pose = int(joy_proto.RightJoy_Y/10.3)
-                print(servo45_pose)
                 self.servo45_pub.publish(servo45_pose)           
 
             
