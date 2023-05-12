@@ -2,14 +2,14 @@
 import serial, rospy, time, BroJoystick_pb2 
 from cobs import cobs
 from geometry_msgs.msg import Twist
-
+from std_msgs.msg import UInt16
 
 class RobotRadioControll():
 
     def __init__(self):
         
-        self.max_linear_vel = rospy.get_param('~max_linear_vel',0.35)
-        self.max_angular_vel = rospy.get_param('~max_angular_vel',2)
+        self.max_linear_vel = rospy.get_param('~max_linear_vel',0.5)
+        self.max_angular_vel = rospy.get_param('~max_angular_vel',1.75)
         self.threshold = rospy.get_param('~threshold',20)
 
         self.state = 'stop'
@@ -23,7 +23,10 @@ class RobotRadioControll():
         self.ser.timeout = 0.1
         self.ser.open()
 
-        self.cmd_vel_pub = rospy.Publisher("/cmd_vel", Twist, queue_size=5)        
+        self.cmd_vel_pub = rospy.Publisher("/cmd_vel", Twist, queue_size=5)   
+        self.servo44_pub = rospy.Publisher("/servo44", UInt16, queue_size=5)
+        self.servo45_pub = rospy.Publisher("/servo45", UInt16, queue_size=5)
+
         rospy.loginfo("RobotRadioControll Init done")
 
     def on_shutdown(self):
@@ -72,7 +75,12 @@ class RobotRadioControll():
                     twist = Twist()
                     twist.linear.x = linear_vel
                     twist.angular.z = angular_vel
-                    self.cmd_vel_pub.publish(twist)                
+                    self.cmd_vel_pub.publish(twist)     
+
+                self.servo44_pub.publish(180 - int(joy_proto.RightJoy_X/5.8)) 
+                servo45_pose = int(joy_proto.RightJoy_Y/10.3)
+                print(servo45_pose)
+                self.servo45_pub.publish(servo45_pose)           
 
             
             except :

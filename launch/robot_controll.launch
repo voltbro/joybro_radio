@@ -1,7 +1,7 @@
 <launch>
     <node pkg="joybro_radio" type="robot_controll.py" name="robot_radio_controll" output="screen"> 
-        <param name="max_linear_vel" value="0.35" type="double"/>
-        <param name="max_angular_vel" value="1.5" type="double"/>
+        <param name="max_linear_vel" value="0.5" type="double"/>
+        <param name="max_angular_vel" value="1.8" type="double"/>
         <param name="threshold" value="20" type="double"/>
         <param name="baudrate" value="19200"/>
         <param name="device" value="/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0"/>
