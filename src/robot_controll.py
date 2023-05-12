@@ -1,6 +1,8 @@
-import serial, rospy, signal, BroJoystick_pb2 
+#! /usr/bin/env python3
+import serial, rospy, time, BroJoystick_pb2 
 from cobs import cobs
 from geometry_msgs.msg import Twist
+
 
 class RobotRadioControll():
 
@@ -22,7 +24,7 @@ class RobotRadioControll():
         self.ser.open()
 
         self.cmd_vel_pub = rospy.Publisher("/cmd_vel", Twist, queue_size=5)        
-        rospy.loginfo("Init done")
+        rospy.loginfo("RobotRadioControll Init done")
 
     def on_shutdown(self):
         
