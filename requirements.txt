@@ -1,4 +1,4 @@
 cobs==1.1.4
-protobuf==3.14.0
+protobuf==4.25.8
 pyserial==3.5
 six==1.15.0
